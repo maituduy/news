@@ -5,7 +5,13 @@
 @section('fa-class', 'fa-user')
 @section('url', 'users')
 @section('page', 'Thêm thành viên')
-
+@section('style')
+    <style>
+        .datepicker {
+            top : 321px !important;
+        }
+    </style>
+@endsection
 @section('content')
     <div class="row">
         <div class="col-md-12">
@@ -42,9 +48,7 @@
 
                         <div class="form-group">
                             <label class="control-label">Address</label>
-                            <textarea class="form-control" rows="4" placeholder="Enter your address" name="address">
-                                {{old('address')}}
-                            </textarea>
+                            <textarea class="form-control" rows="4" placeholder="Enter your address" name="address"> {{old('address')}}</textarea>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">

@@ -12,8 +12,11 @@
     "devDependencies": {
         "axios": "^0.18",
         "cross-env": "^5.1",
+        "font-awesome": "^4.7.0",
         "laravel-mix": "^2.0",
-        "lodash": "^4.17.4",
-        "font-awesome": "^4.7.0"
+        "lodash": "^4.17.4"
+    },
+    "dependencies": {
+        "@fortawesome/fontawesome-free": "^5.2.0"
     }
 }
