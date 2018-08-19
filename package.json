@@ -17,6 +17,7 @@
         "lodash": "^4.17.4"
     },
     "dependencies": {
-        "@fortawesome/fontawesome-free": "^5.2.0"
+        "@fortawesome/fontawesome-free": "^5.2.0",
+        "ckeditor": "^4.10.0"
     }
 }

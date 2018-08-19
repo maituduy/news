@@ -39,7 +39,7 @@
     </div>
 @endsection
 
-@section('script')
+@push('script')
     <script src="{{asset('js/admin/plugins/bootstrap-notify.min.js')}}"></script>
     <script>
         $(document).ready(function () {
@@ -101,6 +101,6 @@
             });
         });
     </script>
-@endsection
+@endpush
 
 

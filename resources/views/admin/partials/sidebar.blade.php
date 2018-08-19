@@ -7,12 +7,13 @@
         </div>
     </div>
     <ul class="app-menu">
-        <li><a class="app-menu__item @yield('dashboard')" href="{{route('admin_dashboard')}}" ><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">Bảng Điều Khiển</span></a></li>
+        <li><a class="app-menu__item @yield('dashboard')" href="{{route('admin_dashboard')}}" ><i class="app-menu__icon fas fa-tachometer-alt"></i><span class="app-menu__label">Bảng Điều Khiển</span></a></li>
         <li><a class="app-menu__item @yield('users')" href="{{route('users.index')}}"><i class="app-menu__icon fa fa-user"></i><span class="app-menu__label">Người dùng</span></a></li>
         <li><a class="app-menu__item @yield('categories')" href="{{route('categories.index')}}"><i class="app-menu__icon fa
         fa-list-alt"></i><span class="app-menu__label">Chuyên mục</span></a></li>
-        <li><a class="app-menu__item @yield('employees')" href="{{route('employees.index')}}"><i class="app-menu__icon" ><ion-icon name="people"></ion-icon></i><span
+        <li><a class="app-menu__item @yield('employees')" href="{{route('employees.index')}}"><i class="app-menu__icon fas fa-user-tie" ></i><span
                         class="app-menu__label">Nhân viên</span></a></li>
+        <li><a class="app-menu__item @yield('stories')" href="{{ route('stories.index') }}"><i class="app-menu__icon fas fa-newspaper" ></i><span class="app-menu__label">Bài viết</span></a></li>
         {{----}}
         {{--<li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-laptop"></i><span class="app-menu__label">UI Elements</span><i class="treeview-indicator fa fa-angle-right"></i></a>--}}
             {{--<ul class="treeview-menu">--}}

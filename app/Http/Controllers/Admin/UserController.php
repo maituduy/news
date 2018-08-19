@@ -11,7 +11,7 @@ use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
-
+    
     public function __construct() {
         $this->middleware('auth:admin');
     }
@@ -54,7 +54,7 @@ class UserController extends Controller
             'password' => 'required|min:6|max:25|confirmed',
         ]);
         if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator);
+            return redirect()->back()->withErrors($validator)->withInput();
         }
         User::create( $request->except('password_confirmation'));
         return redirect()->route('users.index');
@@ -98,15 +98,20 @@ class UserController extends Controller
         $validator = Validator::make($request->all() ,[
             'email' => [
                 'required',
+                'email',
                 'max:255',
                 Rule::unique('users')->ignore($id),
             ],
+            'password' => ($request->password==null) ? '' : 'between:6,20|confirmed',
             'name' => 'required|max:255',
         ]);
         if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator);
+            return redirect()->back()->withErrors($validator)->withInput();
         }
-        User::findOrFail($id)->update($request->except('password_confirmation'));
+        User::findOrFail($id)->update($request->except([
+            'password_confirmation',
+            ($request->password == null) ? 'password' : '',
+        ]));
         return redirect()->route('users.index');
     }
 

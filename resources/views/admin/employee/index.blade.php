@@ -87,7 +87,7 @@
 
 @endsection
 
-@section('script')
+@push('script')
     <script src="{{asset('js/admin/plugins/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('js/admin/plugins/dataTables.bootstrap.min.js')}}"></script>
     <script>
@@ -117,4 +117,4 @@
         });
     </script>
 
-@endsection
+@endpush

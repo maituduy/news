@@ -21,14 +21,15 @@ Route::prefix('/admin')->group(function () {
     Route::get('/logout', 'Admin\AuthController@logout')->name('admin_logout');
     Route::get('/dashboard', 'Admin\AdminController@dashboard')->name('admin_dashboard');
 
-    Route::resource('/users', 'Admin\UserController');
     Route::post('/users/destroymany', 'Admin\UserController@destroyMany')->name('users.destroymany');
     Route::get('/users/changestatus/{id}', 'Admin\UserController@changeStatus')->name('users.change');
+    Route::resource('/users', 'Admin\UserController');
 
     Route::get('/categories', 'Admin\CategoryController@index')->name('categories.index');
     Route::post('/createcategory', 'Admin\CategoryController@ajax')->name('cateajax');
 
-
-    Route::resource('employees', 'Admin\EmployeeController');
     Route::post('/employees/destroymany', 'Admin\EmployeeController@destroyMany')->name('employees.destroymany');
+    Route::resource('employees', 'Admin\EmployeeController');
+    
+    Route::resource('/stories', 'Admin\StoryController');
 });

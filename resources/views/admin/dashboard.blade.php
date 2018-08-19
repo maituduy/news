@@ -24,7 +24,7 @@
             </div>
         </div>
         <div class="col-md-6 col-lg-3">
-            <div class="widget-small warning coloured-icon"><i class="icon fa fa fa-newspaper-o fa-3x"></i>
+            <div class="widget-small warning coloured-icon"><i class="icon fas fa-newspaper  fa-3x"></i>
                 <div class="info">
                     <h4>Today News</h4>
                     <p><b>{{\App\Story::count()}}</b></p>
@@ -52,7 +52,7 @@
     </div>
 @endsection
 
-@section('script')
+@push('script')
     <!-- Page specific javascripts-->
     <script src="{{asset('js/admin/plugins/chart.js')}}"></script>
     <script type="text/javascript">
@@ -104,4 +104,4 @@
         }
     </script>
 
-@endsection
+@endpush
