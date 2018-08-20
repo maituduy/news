@@ -5,7 +5,9 @@
 @section('fa-class', 'fas fa-newspaper')
 @section('url', 'stories')
 @section('page', 'Create Story')
-
+@section('style')
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+@endsection
 @section('content')
 <div class="tile">
     <form method="post" action="{{ route('stories.store') }}" enctype="multipart/form-data" >
@@ -73,7 +75,15 @@
                 @endif
             </div>
         </div>
-
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="tags_select">Tags</label>
+                    <select name="tags[]" class="form-control tags" multiple="multiple" id="tags_select"></select>
+                </div> 
+                
+            </div>
+        </div>
         <div class="tile-footer">
             <button class="btn btn-primary"><i class="fas fa-angle-double-down mr-1"></i>Save</button>
             <a href="{{ url()->previous() }}" class="btn btn-secondary"><i class="fas fa-ban mr-1"></i>Cancel</a>
@@ -83,6 +93,7 @@
 @endsection
 
 @push('script')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
     <script src="{{ asset('/js/ckeditor/ckeditor.js') }}"></script>
     <script src="{{ asset('/js/ckfinder/ckfinder.js') }}"></script>
     <script>
@@ -90,6 +101,9 @@
             language : 'vi',
             filebrowserBrowseUrl: '{{ asset('/js/ckfinder/ckfinder.html') }}',
 	        filebrowserUploadUrl: '{{ asset('/js/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files') }}'
+        });
+        $(".tags").select2({
+           tags: true
         });
     </script>
 @endpush

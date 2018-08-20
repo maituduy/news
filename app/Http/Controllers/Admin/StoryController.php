@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Story;
+use App\Category;
 use Illuminate\Support\Facades\Validator;
 
 class StoryController extends Controller
@@ -45,7 +46,7 @@ class StoryController extends Controller
     {
         //
         $validator = Validator::make($request->all() ,[
-            'title' => 'required|max:255',
+            'title' => 'required|unique:stories|max:255',
             'content' => 'required',
             'description' => 'required',
             'image' => 'image|max:1024'
@@ -60,15 +61,27 @@ class StoryController extends Controller
                 // Filename cực shock để khỏi bị trùng
                 $fileName = time() . "_" . rand(0,9999999) . "_" . md5(rand(0,9999999)) . "." . $fileExtension;
                 // Thư mục upload
-                $uploadPath =  url('/public/images/admin/story'); // Thư mục upload
+                $uploadPath =  public_path('/images/admin/story'); // Thư mục upload
                 // Bắt đầu chuyển file vào thư mục
                 
+                $tags_id = [];
                 $request->file('image')->move($uploadPath, $fileName);
+                foreach($request->tags as $tag) {
+                    $item = \App\Tag::firstOrCreate(['name' => $tag]);
+                    $item->save();
+                    array_push($tags_id, $item->id);
+                }
                 $story = new Story();
+                
                 $story->title = $request->title;
                 $story->content = $request->content;
-                $story->description = $reques->description;
-                
+                $story->description = $request->description;
+                $story->avatar = $uploadPath.$fileName;
+                $story->admin()->associate(auth()->user());
+                $story->category()->associate(Category::findOrFail($request->category));
+                $story->save();   
+                $story->tags()->sync($tags_id);
+                return redirect()->route('stories.index');
             }
             else return redirect()->back()->with('error', 'Upload Failed');
             

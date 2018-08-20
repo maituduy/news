@@ -23,7 +23,7 @@ class CreateStoriesTable extends Migration
             $table->unsignedInteger('manuscript_id')->nullable();
             $table->unsignedInteger('admin_id');
             $table->unsignedInteger('view')->default(0);
-            $table->string('title');
+            $table->string('title')->unique();
             $table->text('content');
             $table->integer('is_active')->default(0);
             $table->timestamps();

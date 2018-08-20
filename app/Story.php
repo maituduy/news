@@ -34,10 +34,6 @@ class Story extends Model
         return $this->belongsTo('App\Admin');
     }
 
-    public function setSlugAttribute(){
-        $this->attribute['slug'] = slug($this->title);
-    } 
-
     public function slug() {
         $str = trim(mb_strtolower($str));
         $str = preg_replace('/(à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ)/', 'a', $str);
