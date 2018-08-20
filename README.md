@@ -1,5 +1,6 @@
 <h1>Hướng dẫn cài đặt</h1>
 <ol>
+<li> clone and move to project </li>
 <li> npm i </li>
 <li> composer i </li>
 <li> npm run dev </li>
