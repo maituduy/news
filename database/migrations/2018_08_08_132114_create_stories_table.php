@@ -26,6 +26,7 @@ class CreateStoriesTable extends Migration
             $table->string('title')->unique();
             $table->text('content');
             $table->integer('is_active')->default(0);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

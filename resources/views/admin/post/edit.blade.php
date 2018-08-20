@@ -1,23 +1,24 @@
 @extends('layouts.admin.master')
 
 @section('stories', 'active')
-@section('title', 'Create Story')
+@section('title', 'Edit Page')
 @section('fa-class', 'fas fa-newspaper')
 @section('url', 'stories')
-@section('page', 'Create Story')
+@section('page', 'Edit Story')
+
 @section('style')
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
 @endsection
 @section('content')
 <div class="tile">
-    <form method="post" action="{{ route('stories.store') }}" enctype="multipart/form-data" >
+    <form method="post" action="{{ route('stories.update', ['id' => $story->id]) }}" enctype="multipart/form-data" >
         {{ csrf_field() }}
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
                     <label for="exampleInputEmail1">Title<span> *</span></label>
                     <input type="text" name="title" class="form-control {{ ($errors->has('title')) ? 'is-invalid' : '' }}"
-                    id="exampleInputEmail1" value="{{ old('title') }}">
+                    id="exampleInputEmail1" value="{{ ($errors->any()) ? old('title') : $story->title }}">
                     @if ($errors->has('title'))
                     <div class="invalid-feedback">
                         {{ $errors->first('title') }}
@@ -32,7 +33,7 @@
                     <label for="exampleInputSelect">Category</label>
                     <select name="category" class="form-control" id="exampleInputSelect">
                         @foreach (App\Category::all() as $category)
-                            <option value="{{ $category->id }} ">{{ $category->name }}</option>
+                            <option value="{{ $category->id }}" {{ ($category->id==$story->category->id) ? 'selected' : '' }}>{{ $category->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -40,6 +41,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="exampleFile">Image</label>
+                    <img src="{{ asset('/images/admin/story/'.$story->avatar) }}" alt="">
                     <input type="file" name="image" class="form-control-file {{ ($errors->has('image')) ? 'is-invalid' : '' }}" id="exampleFile">
                     @if ($errors->has('image'))
                     <div class="invalid-feedback">
@@ -53,7 +55,7 @@
             <div class="col-md-12">
                 <div class="form-group">
                     <label for="exampleInputDes">Description<span> *</span></label>
-                    <textarea name="description" rows="5"  class="form-control {{ ($errors->has('description')) ? 'is-invalid' : '' }}" id="exampleInputDes">{{ old('description') }}</textarea>
+                    <textarea name="description" rows="5"  class="form-control {{ ($errors->has('description')) ? 'is-invalid' : '' }}" id="exampleInputDes">{{ ($errors->any()) ? old('description') : $story->description }}</textarea>
                     @if ($errors->has('description'))
                     <div class="invalid-feedback">
                         {{ $errors->first('description') }}
@@ -66,7 +68,7 @@
             <div class="col-md-12">
                 <div class="form-group">
                     <label for="exampleFormControlTextarea1">Content<span> *</span></label>
-                    <textarea name="content" class="form-control {{ ($errors->has('content')) ? 'is-invalid' : '' }}" id="exampleFormControlTextarea1">{{ old('content') }}</textarea>
+                    <textarea name="content" class="form-control {{ ($errors->has('content')) ? 'is-invalid' : '' }}" id="exampleFormControlTextarea1">{{ ($errors->any()) ? old('content') : $story->content }}</textarea>
                 </div>
                 @if ($errors->has('content'))
                 <div class="invalid-feedback">
@@ -79,7 +81,13 @@
             <div class="col-md-12">
                 <div class="form-group">
                     <label for="tags_select">Tags</label>
-                    <select name="tags[]" class="form-control tags" multiple="multiple" id="tags_select"></select>
+                    <select name="tags[]" class="form-control tags" multiple="multiple" id="tags_select">
+                        @forelse ((($errors->any()) ? old('tags') : $story->tags()->get()) as $item)
+                            <option selected="selected">{{ $item->name }}</option>
+                        @empty
+                            
+                        @endforelse
+                    </select>
                 </div> 
                 
             </div>

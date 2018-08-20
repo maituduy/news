@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Story;
 use App\Category;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
 
 class StoryController extends Controller
@@ -49,38 +50,16 @@ class StoryController extends Controller
             'title' => 'required|unique:stories|max:255',
             'content' => 'required',
             'description' => 'required',
-            'image' => 'image|max:1024'
+            'image' => 'required|image|max:1024'
         ]);
         if ($validator->fails())
             return redirect()->back()->withErrors($validator)->withInput();
         else {
             if ($request->file('image')->isValid()) {
                 // File này có thực, bắt đầu đổi tên và move
-                $fileExtension = $request->file('image')->getClientOriginalExtension(); // Lấy . của file
+                $fileName = upload_file_to_story($request);
                 
-                // Filename cực shock để khỏi bị trùng
-                $fileName = time() . "_" . rand(0,9999999) . "_" . md5(rand(0,9999999)) . "." . $fileExtension;
-                // Thư mục upload
-                $uploadPath =  public_path('/images/admin/story'); // Thư mục upload
-                // Bắt đầu chuyển file vào thư mục
-                
-                $tags_id = [];
-                $request->file('image')->move($uploadPath, $fileName);
-                foreach($request->tags as $tag) {
-                    $item = \App\Tag::firstOrCreate(['name' => $tag]);
-                    $item->save();
-                    array_push($tags_id, $item->id);
-                }
-                $story = new Story();
-                
-                $story->title = $request->title;
-                $story->content = $request->content;
-                $story->description = $request->description;
-                $story->avatar = $uploadPath.$fileName;
-                $story->admin()->associate(auth()->user());
-                $story->category()->associate(Category::findOrFail($request->category));
-                $story->save();   
-                $story->tags()->sync($tags_id);
+                fill_field_story($request, $fileName);
                 return redirect()->route('stories.index');
             }
             else return redirect()->back()->with('error', 'Upload Failed');
@@ -110,6 +89,8 @@ class StoryController extends Controller
     public function edit($id)
     {
         //
+        $story = Story::findOrFail($id);
+        return view('admin.post.edit', compact('story'));
     }
 
     /**
@@ -122,6 +103,19 @@ class StoryController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $validator = Validator::make($request->all() ,[
+            'title' => [
+                'required',
+                'max:255',
+                Rule::unique('stories')->ignore($id)
+            ],
+            'content' => 'required',
+            'description' => 'required',
+            'image' => 'required|image|max:1024'
+        ]);
+        if ($validator->fails())
+            return redirect()->back()->withErrors($validator)->withInput();
+        
     }
 
     /**
@@ -133,6 +127,9 @@ class StoryController extends Controller
     public function destroy($id)
     {
         //
+        $story = Story::findOrFail($id);
+        $story->delete();
+        return redirect()->route('stories.index');
     }
 
 }
