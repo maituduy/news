@@ -30,7 +30,7 @@
         return $fileName;
     }
 
-    function fill_field_story($request, $fileName) {
+    function fill_field_story($request, $fileName, $id = null) {
         $tags_id = [];
         if (count($request->tags)>0)
             foreach($request->tags as $tag) {
@@ -38,12 +38,12 @@
                 $item->save();
                 array_push($tags_id, $item->id);
             }
-        $story = new Story();
+        $story = ($id != null) ? Story::find($id) : new Story();
         $story->title = $request->title;
         $story->content = $request->content;
         $story->description = $request->description;
         $story->slug = str_slug(slug($story->title));
-        $story->avatar = $fileName;
+        if ($fileName != null) $story->avatar = $fileName;
         $story->admin()->associate(auth()->user());
         $story->category()->associate(Category::findOrFail($request->category));
         $slug_category = str_slug(slug($story->category->name));
@@ -51,5 +51,9 @@
         $story->save();   
         $story->tags()->sync($tags_id);
         
+    }
+
+    function format_time_store($store) {
+        return Carbon\Carbon::parse($store->created_at)->format('l d-m-Y h:i:s');
     }
 ?>

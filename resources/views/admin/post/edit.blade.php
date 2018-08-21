@@ -13,6 +13,7 @@
 <div class="tile">
     <form method="post" action="{{ route('stories.update', ['id' => $story->id]) }}" enctype="multipart/form-data" >
         {{ csrf_field() }}
+        {{ method_field('put') }}
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
@@ -41,7 +42,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="exampleFile">Image</label>
-                    <img src="{{ asset('/images/admin/story/'.$story->avatar) }}" alt="">
+                    <img class="img-fluid" src="{{ asset('/images/admin/story/'.$story->avatar) }}" alt="">
                     <input type="file" name="image" class="form-control-file {{ ($errors->has('image')) ? 'is-invalid' : '' }}" id="exampleFile">
                     @if ($errors->has('image'))
                     <div class="invalid-feedback">
@@ -85,7 +86,6 @@
                         @forelse ((($errors->any()) ? old('tags') : $story->tags()->get()) as $item)
                             <option selected="selected">{{ $item->name }}</option>
                         @empty
-                            
                         @endforelse
                     </select>
                 </div> 

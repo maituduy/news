@@ -15,7 +15,7 @@
             <div class="col-md-12">
                 <div class="tile">
                     <div class="tile-title-w-btn">
-                        <h3 class="title">{{ $story->title }}</h3>
+                        <h3 class="title"><a href="{{ route('stories.show', ['id' => $story->id]) }}">{{ $story->title }}</a></h3>
                         <div class="btn-group">
                             <a class="btn btn-primary" href="{{ route('stories.create') }}"><i class="fa fa-lg fa-plus"></i></a>
                             <a class="btn btn-primary" href="{{ route('stories.edit', ['id' => $story->id]) }}"><i class="fa fa-lg fa-edit"></i></a>

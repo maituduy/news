@@ -78,6 +78,8 @@ class StoryController extends Controller
     public function show($id)
     {
         //
+        $story = Story::findOrFail($id);
+        return view('admin.post.show', compact('story'));
     }
 
     /**
@@ -111,11 +113,19 @@ class StoryController extends Controller
             ],
             'content' => 'required',
             'description' => 'required',
-            'image' => 'required|image|max:1024'
+            'image' => [
+                'image',
+                'max:1024'
+            ]
         ]);
         if ($validator->fails())
             return redirect()->back()->withErrors($validator)->withInput();
-        
+        else {
+            $fileName = ($request->file('image') != null) ? upload_file_to_story($request) : null; 
+            fill_field_story($request, $fileName, $id);
+            return redirect()->route('stories.index');
+        }
+                
     }
 
     /**
@@ -130,6 +140,7 @@ class StoryController extends Controller
         $story = Story::findOrFail($id);
         $story->delete();
         return redirect()->route('stories.index');
+        
     }
 
 }
