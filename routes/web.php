@@ -1,5 +1,8 @@
 <?php
 
+use App\Category;
+use App\Story;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,7 +15,22 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $stories = Story::all();
+    return view('client.bao', compact('stories'));
+});
+
+Route::get('/{slug}.{id}.htm', function($slug, $id) {
+    $category = Category::find($id); 
+    $stories = $category->stories()->orderBy('created_at', 'desc')->paginate(10);
+    $cate_name = $category->name;
+    return view('client.category', compact('stories', 'cate_name'));
+})->name('category');
+
+Route::get('/tag/{slug}.{id}.htm', function($slug, $id) {
+    $tag = Tag::find($id); 
+    $stories = $tag->stories()->orderBy('created_at', 'desc')->paginate(10);
+    $tag_name = $tag->name;
+    return view('client.tag', compact('stories', 'tag_name'));
 });
 
 Route::prefix('/admin')->group(function () {

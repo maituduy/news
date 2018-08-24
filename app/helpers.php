@@ -13,6 +13,7 @@
         $str = preg_replace('/(đ)/', 'd', $str);
         $str = preg_replace('/[^a-z0-9-\s]/', '', $str);
         $str = preg_replace('/([\s]+)/', '-', $str);
+        $str = str_slug($str);
         return $str;
     }
 
@@ -42,11 +43,11 @@
         $story->title = $request->title;
         $story->content = $request->content;
         $story->description = $request->description;
-        $story->slug = str_slug(slug($story->title));
+        $story->slug = slug($story->title);
         if ($fileName != null) $story->avatar = $fileName;
         $story->admin()->associate(auth()->user());
         $story->category()->associate(Category::findOrFail($request->category));
-        $slug_category = str_slug(slug($story->category->name));
+        $slug_category = slug($story->category->name);
         $story->url = url("/$slug_category/$story->slug");
         $story->save();   
         $story->tags()->sync($tags_id);
