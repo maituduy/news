@@ -33,6 +33,11 @@ Route::get('/tag/{slug}.{id}.htm', function($slug, $id) {
     return view('client.tag', compact('stories', 'tag_name'));
 });
 
+
+Route::get('/{cate}/{slug}-{id}.htm', function($cate, $slug, $id) {
+    
+})->name('story');
+
 Route::prefix('/admin')->group(function () {
     Route::get('/', 'Admin\AuthController@showLoginForm');
     Route::post('/', 'Admin\AuthController@login');

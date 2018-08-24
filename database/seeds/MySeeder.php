@@ -14,7 +14,7 @@ class MySeeder extends Seeder
         //
         $admin = new \App\Admin;
         $admin->email = 'd@g.com';
-        $admin->name = 'Mai Tu Duy';
+        $admin->name = 'Admin Test';
         $admin->password = bcrypt('123456'); 
         $job        = collect(\App\Job::all())->random();
         $category   = collect(\App\Category::all())->random();
