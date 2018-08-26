@@ -101,5 +101,14 @@
             $start->addDay();
         }
         return $res;     
-     }
+    }
+
+    function checkLikeAuthUser($comment) {
+        $auth_id = auth()->user()->id;
+        $likes = $comment->likes()->get();
+        $ids_liked = [];
+        foreach ($likes as $like)
+            array_push($ids_liked, $like->user->id);
+        return in_array($auth_id, $ids_liked);
+    }
 ?>

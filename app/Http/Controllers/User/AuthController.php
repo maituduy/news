@@ -5,10 +5,14 @@ namespace App\Http\Controllers\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\User;
+use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
     //
+    protected $redirectTo = '/home';
+
     public function __construct() {
         $this->middleware('guest')->except(['logout']);
     }
@@ -37,5 +41,23 @@ class AuthController extends Controller
     public function logout() {
         Auth::logout();
         return redirect('/');
+    }
+
+    public function showSignupForm() {
+        return view('client.signup');
+    }
+
+    public function signup(Request $request) {
+        $validator = Validator::make($request->all() ,[
+            'email' => 'required|unique:users|max:255',
+            'name' => 'required|max:255',
+            'password' => 'required|min:6|max:25|confirmed',
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+        $user = User::create($request->except('password_confirmation'));
+        Auth::login($user);
+        return redirect()->url('/');
     }
 }

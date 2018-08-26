@@ -6,7 +6,7 @@
         <div class="header_right">
             @if (!auth()->check())
                 <a href="{{ url('/login') }}" style="line-height:50px">Đăng Nhập</a>
-                <a href="" style="line-height:50px">Đăng Ký</a>
+                <a href="{{ url('/signup') }}" style="line-height:50px">Đăng Ký</a>
             @else
                 <a href="{{ route('logout') }}" style="line-height:50px">Đăng Xuất</a>
             @endif

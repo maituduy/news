@@ -60,13 +60,17 @@
                             <p>{{ $comment->user->name }} - <span class="time text-secondary"> {{ diffForHumans($comment) }}</span></p>
                             <div class="flex-grow-1"></div>
                             @if (auth()->check())
-                                <a href="#!" id="like_btn" class="text-right mr-3 text-info"><i class="fas fa-thumbs-up"></i> Thích <span data-id={{ $comment->id }} class="liked">{{ $comment->likes }}</span></a>
+                                <a href="#!" class="text-right mr-3 like_btn {{ checkLikeAuthUser($comment) ? 'text-info' : 'text-secondary' }}">
+                                    <i class="fas fa-thumbs-up"></i> 
+                                    <b>{{ checkLikeAuthUser($comment) ? 'Đã Thích' : 'Thích' }}</b>     
+                                    <span data-id={{ $comment->id }} class="text-secondary {{ (checkLikeAuthUser($comment)) ? 'liked' : ''}}">{{ $comment->likes()->count() }}</span>
+                                </a>
                             @endif
                             </div>
                         <p class="comment-content"> {{ $comment->content }} </p>
                         <hr style="width: 90%;margin:1rem auto">
                     @endforeach
-                    
+                    {{ $comments->links() }}
                 </div>
                 
             </div>
@@ -105,21 +109,42 @@
 
 @push('script')
     <script src="{{asset('js/admin/jquery.min.js')}}"></script>
-    {{-- <script>
+    <script>
         $(document).ready(function() {
-            $('#like_btn').click(function(e) {
-                var value = $('#like_btn span').html();
-                if ($('#like_btn span').hasClass('liked')){
-                    $('#like_btn span').removeClass('liked');
-                    if (value>0) value--;
+            $('.like_btn').click(function(e) {
+                var el = $(this).children('span');
+                var content = $(this).children('b');
+                var value = el.html();  
+                if (el.hasClass('liked')){
+                    el.removeClass('liked');
+                    $(this).removeClass('text-info');
+                    $(this).addClass('text-secondary');
+                    content.html('Thích');
+                    el.html(--value);
                 } else {
-                    $('#like_btn span').addClass('liked');
-                    value++;
+                    el.addClass('liked');
+                    $(this).removeClass('text-secondary');
+                    $(this).addClass('text-info');
+                    content.html('Đã Thích');
+                    el.html(++value);
                 }
-                console.log(value);
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                }); 
+                $.ajax({
+                    url : "{{ url('/ajax_like') }}",
+                    method : 'post',
+                    data : {id : el.data('id')},
+                    success : function(res) {
+                        console.log(res);
+                    }
+                });
+                
                 e.preventDefault();
             });
         });
         
-    </script> --}}
+    </script>
 @endpush

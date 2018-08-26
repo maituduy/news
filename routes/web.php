@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Tag;
 use App\Comment;
 use App\User;
+use App\Like;
 use Illuminate\Http\Request;
 
 /*
@@ -26,6 +27,9 @@ Route::get('/', function () {
 
 Route::get('/login', 'User\AuthController@showLoginForm');
 Route::post('/login', 'User\AuthController@login');
+Route::get('/signup', 'User\AuthController@showSignupForm');
+Route::post('/signup', 'User\AuthController@signup');
+
 Route::get('/logout', 'User\AuthController@logout')->name('logout');
 
 Route::get('/{slug}.{id}.htm', function($slug, $id) {
@@ -41,6 +45,23 @@ Route::get('/tag/{slug}.{id}.htm', function($slug, $id) {
     $tag_name = $tag->name;
     return view('client.tag', compact('stories', 'tag_name'));
 })->name('tag');
+
+Route::post('/ajax_like', function(Request $request) {
+    $comment = Comment::findOrFail($request->id);
+    if (!checkLikeAuthUser($comment)) {
+        $like = new Like();
+        $like->user()->associate(auth()->user());
+        $like->comment()->associate($comment);
+        $like->save();
+        return 'liked';
+    }
+    else {
+        Like::where('comment_id', $request->id)
+            ->where('user_id', auth()->user()->id)
+            ->delete();
+        return 'unliked';
+    }
+});
 
 Route::post('/comment/{id}', function(Request $request, $id) {
     if ($request->comment == null) {
@@ -64,7 +85,7 @@ Route::get('/{cate}/{slug}.{id}.htm', function($cate, $slug, $id) {
     })->orderBy('created_at', 'desc')->get();
     $story->addViewWithExpiryDate(Carbon::now()->addHours(2));
 
-    $comments = $story->comments()->orderBy('likes', 'desc')->orderBy('created_at', 'desc')->get();
+    $comments = $story->comments()->orderBy('likes', 'desc')->orderBy('created_at', 'desc')->paginate(10);
     return view('client.posted', compact('story', 'related_news', 'comments'));
 })->name('story');
 

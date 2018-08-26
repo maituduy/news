@@ -18,6 +18,7 @@
     <meta name="author" content="Nhóm thực tập công ty Tâm Việt">
     <meta property="og:locale" content="vi_VN">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="{{ asset('/css/client/style.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('/css/client/reset.css') }}" rel="stylesheet" type="text/css" />
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">

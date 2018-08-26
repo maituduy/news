@@ -39,7 +39,7 @@
                                 - {{ diffForHumans($comment) }}
                             </span>
                             <div class="text-right flex-grow-1 mr-4">
-                                <p><i class="fas fa-thumbs-up"></i> {{ $comment->likes }} Thích</p>
+                                <p><i class="fas fa-thumbs-up"></i> {{ $comment->likes()->count() }} Thích</p>
                             </div>
                         </div>
                         <hr>
