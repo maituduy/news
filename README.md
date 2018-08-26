@@ -4,12 +4,10 @@
 <li> npm i </li>
 <li> composer i </li>
 <li> npm run dev </li>
-
 <li> cp .env.example .env </li>
 <li> php artisan key:generate</li>
 <li> tạo database </li>
 <li> edit user password database name trong file .env</li>
 <li> php artisan migrate --seed </li>
-<li> Uncomment <code>View::share('categories', Category::all());</code> in app/Providers/AppServiceProvider.php</li>
 </ol>
 (login admin page with d@g.com 123456)
