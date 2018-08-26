@@ -7,6 +7,7 @@
     <!-- Main CSS-->
     <link rel="stylesheet" type="text/css" href="{{asset('css/app.css')}}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
     <title>Login - Admin</title>
     <style>
         input:-webkit-autofill,
@@ -26,29 +27,30 @@
         <h1></h1>
     </div>
     <div class="login-box">
+        
         <form class="login-form" method="post" action="{{action('Admin\AuthController@login')}}">
             {{csrf_field()}}
-            <h3 class="login-head"><i class="fa fa-lg fa-fw fa-user"></i>SIGN IN</h3>
+            <h3 class="login-head"><i class="fa fa-lg fa-fw fa-user"></i>ĐĂNG NHẬP</h3>
             <div class="form-group">
                 <label class="control-label">EMAIL</label>
                 <input class="form-control" type="text" placeholder="Email" name="email" value="{{old('email')}}" autofocus required>
             </div>
             <div class="form-group">
-                <label class="control-label">PASSWORD</label>
+                <label class="control-label">MẬT KHẨU</label>
                 <input class="form-control" type="password" placeholder="Password" name="password" required>
             </div>
             <div class="form-group">
                 <div class="utility">
                     <div class="animated-checkbox">
                         <label>
-                            <input type="checkbox"><span class="label-text">Stay Signed in</span>
+                            <input type="checkbox"><span class="label-text">Giữ Đăng nhập</span>
                         </label>
                     </div>
-                    <p class="semibold-text mb-2"><a href="#" data-toggle="flip">Forgot Password ?</a></p>
+                    <p class="semibold-text mb-2"><a href="#" data-toggle="flip">Quên Mật Khẩu</a></p>
                 </div>
             </div>
             <div class="form-group btn-container">
-                <button class="btn btn-primary btn-block"><i class="fa fa-sign-in fa-lg fa-fw"></i>SIGN IN</button>
+                <button class="btn btn-primary btn-block"><i class="fa fa-sign-in fa-lg fa-fw"></i>Đăng nhập</button>
             </div>
         </form>
         <form class="forget-form" method="post" action="">

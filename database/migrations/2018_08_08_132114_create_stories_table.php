@@ -16,8 +16,9 @@ class CreateStoriesTable extends Migration
         Schema::create('stories', function (Blueprint $table) {
             $table->increments('id');
             $table->string('avatar');
+            $table->unsignedInteger('likes')->default(0);
             $table->string('slug')->unique()->nullable();
-            $table->string('description')->nullable();
+            $table->text('description')->nullable();
             $table->string('url')->unique()->nullable();
             $table->unsignedInteger('category_id');
             $table->unsignedInteger('manuscript_id')->nullable();

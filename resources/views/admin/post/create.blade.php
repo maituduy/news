@@ -1,10 +1,10 @@
 @extends('layouts.admin.master')
 
 @section('stories', 'active')
-@section('title', 'Create Story')
+@section('title', 'Thêm Bài Viết')
 @section('fa-class', 'fas fa-newspaper')
 @section('url', 'stories')
-@section('page', 'Create Story')
+@section('page', 'Thêm Bài Viết')
 @section('style')
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
 @endsection
@@ -15,7 +15,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Title<span> *</span></label>
+                    <label for="exampleInputEmail1">Tiêu Đề<span> *</span></label>
                     <input type="text" name="title" class="form-control {{ ($errors->has('title')) ? 'is-invalid' : '' }}"
                     id="exampleInputEmail1" value="{{ old('title') }}">
                     @if ($errors->has('title'))
@@ -29,7 +29,7 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="exampleInputSelect">Category</label>
+                    <label for="exampleInputSelect">Chuyên Mục</label>
                     <select name="category" class="form-control" id="exampleInputSelect">
                         @foreach (App\Category::all() as $category)
                             <option value="{{ $category->id }} ">{{ $category->name }}</option>
@@ -39,7 +39,7 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="exampleFile">Image</label>
+                    <label for="exampleFile">Ảnh</label>
                     <input type="file" name="image" class="form-control-file {{ ($errors->has('image')) ? 'is-invalid' : '' }}" id="exampleFile">
                     @if ($errors->has('image'))
                     <div class="invalid-feedback">
@@ -52,7 +52,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
-                    <label for="exampleInputDes">Description<span> *</span></label>
+                    <label for="exampleInputDes">Mô Tả<span> *</span></label>
                     <textarea name="description" rows="5"  class="form-control {{ ($errors->has('description')) ? 'is-invalid' : '' }}" id="exampleInputDes">{{ old('description') }}</textarea>
                     @if ($errors->has('description'))
                     <div class="invalid-feedback">
@@ -65,7 +65,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
-                    <label for="exampleFormControlTextarea1">Content<span> *</span></label>
+                    <label for="exampleFormControlTextarea1">Nội Dung<span> *</span></label>
                     <textarea name="content" class="form-control {{ ($errors->has('content')) ? 'is-invalid' : '' }}" id="exampleFormControlTextarea1">{{ old('content') }}</textarea>
                 </div>
                 @if ($errors->has('content'))
@@ -78,7 +78,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
-                    <label for="tags_select">Tags</label>
+                    <label for="tags_select">Thẻ</label>
                     <select name="tags[]" class="form-control tags" multiple="multiple" id="tags_select"></select>
                 </div> 
                 

@@ -3,16 +3,14 @@
         <div class="header_left">
             <img class="logo_image" src="{{ asset('/images/client/baomoi.png') }}" alt="logo trang bao">
         </div>
-        <div class="search-container">
-    
-            <input type="text" placeholder="Nhập nội dung tìm kiếm" name="search">
-            <button type="submit"><i class="fa fa-search"></i></button>
-    
-        </div>
         <div class="header_right">
-            <a href="">
-            <img class="user_image" src="{{ asset('/images/client/user.png') }}" alt="Hinh anh nguoi dung">
-            </a>
+            @if (!auth()->check())
+                <a href="{{ url('/login') }}" style="line-height:50px">Đăng Nhập</a>
+                <a href="" style="line-height:50px">Đăng Ký</a>
+            @else
+                <a href="{{ route('logout') }}" style="line-height:50px">Đăng Xuất</a>
+            @endif
+            
         </div>
     </div>
 </div>

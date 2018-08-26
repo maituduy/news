@@ -17,6 +17,7 @@ class CreateAdminsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('category_id')->nullable();
             $table->unsignedInteger('job_id')->nullable();
+            $table->string('avatar')->default('/images/admin/avatar/default-avatar.jpeg');
             $table->string('name');
             $table->string('email')->unique();
             $table->string('phone_number')->unique()->nullable();

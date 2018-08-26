@@ -1,10 +1,10 @@
 @extends('layouts.admin.master')
 
 @section('stories', 'active')
-@section('title', 'Story Page')
+@section('title', 'Bài Viết')
 @section('fa-class', 'fas fa-newspaper')
 @section('url', 'stories')
-@section('page', 'Stories')
+@section('page', 'Bài Viết')
 
 @section('content')
     @forelse ($stories as $story)
@@ -47,5 +47,5 @@
         </div>
     </div>
     @endforelse
-    
+    {{ $stories->links() }}
 @endsection

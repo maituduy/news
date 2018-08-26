@@ -2,6 +2,9 @@
     use App\Category;
     use App\Story;
     use App\Tag;
+    use Carbon\Carbon;
+    use Illuminate\Support\Facades\DB;
+
     function slug($str) {
         $str = trim(mb_strtolower($str));
         $str = preg_replace('/(à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ)/', 'a', $str);
@@ -54,7 +57,49 @@
         
     }
 
-    function format_time_store($store) {
-        return Carbon\Carbon::parse($store->created_at)->format('l d-m-Y h:i:s');
+    function format_time_store($story) {
+        return Carbon::parse($story->created_at)->format('l d-m-Y h:i:s A');
     }
+
+    function diffForHumans($comment) {
+        return Carbon::parse($comment->created_at)->diffForHumans();
+    }
+
+    function getStoriesToday() {
+        $today = Carbon::today();
+        $tomorrow = Carbon::tomorrow();
+        return Story::whereBetween('created_at', [$today, $tomorrow])->count();
+    }
+
+    function getStoriesLast7Days() {
+        $today = Carbon::today();
+        $start = $today->subWeek();
+        $day = $start->copy();
+        $res = [];
+        for ($i = 0; $i<7; $i++) {
+            array_push($res, Story::whereBetween('created_at', [$start, $day->addDay()])->count());
+            $start->addDay();
+        }
+        return $res;
+    }
+
+    function getAllViewsToday() {
+       $stories = Story::all();
+       $sum = 0;
+       foreach ($stories as $story)
+         $sum += $story->getViewsToday();
+       return $sum;        
+    }
+
+    function getAllViewsLast7Days() {
+        $today = Carbon::today();
+        $start = $today->subWeek();
+        $day = $start->copy();
+        $res = [];
+        for ($i = 0; $i<7; $i++) {
+            array_push($res, DB::table('views')->whereBetween('viewed_at', [$start, $day->addDay()])->count());
+            $start->addDay();
+        }
+        return $res;     
+     }
 ?>

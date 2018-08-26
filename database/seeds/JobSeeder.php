@@ -12,7 +12,7 @@ class JobSeeder extends Seeder
     public function run()
     {
         //
-        $roles = ['Editor', 'Managing Editor', 'Author', 'Executive Editor'];
+        $roles = ['Biên Tập Viên', 'Tổng Biên Tập', 'Phóng viên', 'Phó Tổng Biên Tập'];
         foreach ($roles as $role)
             DB::table('jobs')->insert(['name' => $role]);
     }

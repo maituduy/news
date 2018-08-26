@@ -13904,8 +13904,8 @@ be a descendant of the grid when it is being dragged.
     display: none;
   }
   .sidebar-mini.sidenav-toggled .app-sidebar__user-avatar {
-    width: 30px;
-    height: 30px;
+    width: 30px !important;
+    height: 30px !important;
   }
   .sidebar-mini.sidenav-toggled .app-content {
     margin-left: 50px;

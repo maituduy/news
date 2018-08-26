@@ -4,10 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use CyrildeWit\EloquentViewable\Viewable;
+use CyrildeWit\EloquentViewable\Support\Period;
+use Carbon\Carbon;
 
 class Story extends Model
 {
     use SoftDeletes;
+    use Viewable;
     //
     protected $table = 'stories';
     protected $guarded = [];
@@ -36,5 +40,7 @@ class Story extends Model
         return $this->belongsTo('App\Admin');
     }
 
-    
+    public function getViewsToday() {
+        return $this->getViews(Period::create(Carbon::today(), Carbon::tomorrow()));
+    }
 }

@@ -56,7 +56,7 @@ class UserController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
-        User::create( $request->except('password_confirmation'));
+        User::create($request->except('password_confirmation'));
         return redirect()->route('users.index');
 
     }
@@ -128,7 +128,8 @@ class UserController extends Controller
 
     public function destroyMany(Request $request) {
         $ids = $request->checkbox;
-        User::whereIn('id', $ids)->delete();
+        if (count($ids)>0)
+            User::whereIn('id', $ids)->delete();
         return redirect()->route('users.index');
     }
 

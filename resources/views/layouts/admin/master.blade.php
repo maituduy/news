@@ -8,8 +8,13 @@
     @yield('meta')
     @yield('style')
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css">
-    
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
+    <style>
+        .app-sidebar__toggle:before {
+            content: "";
+            font-size: 21px;
+        }
+    </style>
 </head>
 <body class="app sidebar-mini rtl">
 <!-- Navbar-->

@@ -8,6 +8,7 @@ use App\Story;
 use App\Category;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
 
 class StoryController extends Controller
 {
@@ -22,7 +23,7 @@ class StoryController extends Controller
     public function index()
     {
         //
-        $stories = Story::orderBy('created_at', 'desc')->get();
+        $stories = Story::orderBy('created_at', 'desc')->paginate(10);
         return view('admin.post.index', compact('stories'));
     }
 
@@ -79,7 +80,9 @@ class StoryController extends Controller
     {
         //
         $story = Story::findOrFail($id);
-        return view('admin.post.show', compact('story'));
+        // $story->addViewWithExpiryDate(Carbon::now()->addHours(2));
+        $comments = $story->comments()->orderBy('created_at', 'desc')->paginate(10);
+        return view('admin.post.show', compact('story', 'comments'));
     }
 
     /**

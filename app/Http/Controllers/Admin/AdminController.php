@@ -13,7 +13,9 @@ class AdminController extends Controller
     }
 
     public function dashboard() {
-        return view('admin.dashboard');
+        $count_stories = json_encode(getStoriesLast7Days());
+        $count_views = json_encode(getAllViewsLast7Days());
+        return view('admin.dashboard', compact('count_stories', 'count_views'));
     }
 
 }

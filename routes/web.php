@@ -2,6 +2,8 @@
 
 use App\Category;
 use App\Story;
+use Carbon\Carbon;
+use App\Tag;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,25 +19,38 @@ use App\Story;
 Route::get('/', function () {
     $stories = Story::all();
     return view('client.bao', compact('stories'));
-});
+})->name('home');
+
+Route::get('/login', 'User\AuthController@showLoginForm');
+Route::post('/login', 'User\AuthController@login');
+Route::get('/logout', 'User\AuthController@logout')->name('logout');
 
 Route::get('/{slug}.{id}.htm', function($slug, $id) {
-    $category = Category::find($id); 
+    $category = Category::findOrFail($id); 
     $stories = $category->stories()->orderBy('created_at', 'desc')->paginate(10);
     $cate_name = $category->name;
     return view('client.category', compact('stories', 'cate_name'));
 })->name('category');
 
 Route::get('/tag/{slug}.{id}.htm', function($slug, $id) {
-    $tag = Tag::find($id); 
+    $tag = Tag::findOrFail($id); 
     $stories = $tag->stories()->orderBy('created_at', 'desc')->paginate(10);
     $tag_name = $tag->name;
     return view('client.tag', compact('stories', 'tag_name'));
-});
+})->name('tag');
 
 
-Route::get('/{cate}/{slug}-{id}.htm', function($cate, $slug, $id) {
-    
+Route::get('/{cate}/{slug}.{id}.htm', function($cate, $slug, $id) {
+    $story = Story::findOrFail($id);
+    $tags = $story->tags()->get();
+    $tags_name = [];
+    foreach($tags as $tag)
+        array_push($tags_name, $tag->name);
+    $related_news = Story::where('id', '!=', $id)->whereHas('tags', function($query) use ($tags_name) {
+        $query->whereIn('name', $tags_name);
+    })->orderBy('created_at', 'desc')->get();
+    $story->addViewWithExpiryDate(Carbon::now()->addHours(2));
+    return view('client.posted', compact('story', 'related_news'));
 })->name('story');
 
 Route::prefix('/admin')->group(function () {

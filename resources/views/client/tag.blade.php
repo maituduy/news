@@ -1,20 +1,20 @@
 @extends('layouts.client.master')
 
 @section('content')
-    <h1>
-        {{ $tag_name }}
-    </h1>
+    <h6>
+        <i class="fas fa-tags"></i> Thẻ: {{ $tag_name }}
+    </h6>
     <hr class="hr">
     <div class="post">
         <div class="post_dd">
             <ul class='post_cn_ul'>
                 @forelse ($stories as $story)
                 <li>
-                    <a href="">
+                    <a href="{{ route('story', ['cate' => slug($story->category->name), 'slug' => $story->slug, 'id' => $story->id]) }}">
                         <img class="post_dd_no_image" src="{{ asset('/images/admin/story/'.$story->avatar) }}" alt="CP">   
                     </a>
                     <div class="post_des clear fix">
-                    <a href="">
+                    <a href="{{ route('story', ['cate' => slug($story->category->name), 'slug' => $story->slug, 'id' => $story->id]) }}">
                         <h4 class="text16">
                             {{ $story->title }}
                         </h4>
