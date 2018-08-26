@@ -4,6 +4,9 @@ use App\Category;
 use App\Story;
 use Carbon\Carbon;
 use App\Tag;
+use App\Comment;
+use App\User;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,6 +42,16 @@ Route::get('/tag/{slug}.{id}.htm', function($slug, $id) {
     return view('client.tag', compact('stories', 'tag_name'));
 })->name('tag');
 
+Route::post('/comment/{id}', function(Request $request, $id) {
+    if ($request->comment == null) {
+        return redirect()->back();
+    }
+    $comment = new Comment();
+    $comment->content = $request->comment;
+    $comment->user()->associate(User::find(auth()->user()->id));
+    Story::findOrFail($id)->comments()->save($comment);
+    return redirect()->back();
+})->name('comment');
 
 Route::get('/{cate}/{slug}.{id}.htm', function($cate, $slug, $id) {
     $story = Story::findOrFail($id);
@@ -50,7 +63,9 @@ Route::get('/{cate}/{slug}.{id}.htm', function($cate, $slug, $id) {
         $query->whereIn('name', $tags_name);
     })->orderBy('created_at', 'desc')->get();
     $story->addViewWithExpiryDate(Carbon::now()->addHours(2));
-    return view('client.posted', compact('story', 'related_news'));
+
+    $comments = $story->comments()->orderBy('likes', 'desc')->orderBy('created_at', 'desc')->get();
+    return view('client.posted', compact('story', 'related_news', 'comments'));
 })->name('story');
 
 Route::prefix('/admin')->group(function () {

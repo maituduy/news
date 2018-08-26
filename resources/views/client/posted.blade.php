@@ -38,40 +38,45 @@
         </ul>
         </div>
         <div class="cmt clearfix">
-            <div class="comment-form">
-                <div class="comment-editor">
-                    <textarea class="comment-input" id="form-178" name="comment" placeholder="Bạn nghĩ gì về tin này?">
-        
-                    </textarea>
-                    <p class="editor-tool">
-                        <a class="btnEmoticon">
-                            <span class="ti-face-smile">
-        
-                            </span>
-                        </a>
-                    </p>
-                </div>
-                    <a class="button btnSubmit" href="#submit">Gửi bình luận</a>
-                
-            </div>
+            @if (auth()->check())
+                <form action="{{ route('comment', ['story' => $story]) }}" method="post">
+                    {{ csrf_field() }}
+                    <div class="comment-form">
+                        <div class="comment-editor">
+                            <textarea class="comment-input" id="form-178" name="comment" placeholder="Bạn nghĩ gì về tin này?"></textarea>
+                        </div>
+                        <button class="button btnSubmit">Gửi bình luận</button>
+                    </div>
+                </form>
+            @endif
+            <br>
             <div class="comment_list clearfix">
                 <div class="list_header">
-                    <h4 class="list-title">Ý kiến bạn đọc <strong>(1)</strong></h4>
+                    <h4 class="list-title">Ý kiến bạn đọc <strong>({{ $story->comments()->count() }})</strong></h4>
                 </div>
                 <div class="comment-meta">
-                    <p class="author d-flex">Nhân Quả - <span class="time text-secondary"> 5 giờ trước</span></p>
-                    <br>
-                    <p class="comment-content">
-                    Niềm tự hào Việt Nam </p>
+                    @foreach ($comments as $comment)
+                         <div class="d-flex author">
+                            <p>{{ $comment->user->name }} - <span class="time text-secondary"> {{ diffForHumans($comment) }}</span></p>
+                            <div class="flex-grow-1"></div>
+                            @if (auth()->check())
+                                <a href="#!" id="like_btn" class="text-right mr-3 text-info"><i class="fas fa-thumbs-up"></i> Thích <span data-id={{ $comment->id }} class="liked">{{ $comment->likes }}</span></a>
+                            @endif
+                            </div>
+                        <p class="comment-content"> {{ $comment->content }} </p>
+                        <hr style="width: 90%;margin:1rem auto">
+                    @endforeach
+                    
                 </div>
+                
             </div>
         </div>
 <div class="interest">
     <div class="post_dd">
         @if(count($related_news)>0)
-            <h2>
+            <h6>
                 QUAN TÂM
-            </h2>
+            </h6>
         @endempty
         <hr class="hr">
         <ul class='post_cn_ul'>
@@ -82,9 +87,9 @@
                 </a>
                 <div class="post_des clear fix">
                 <a href="{{ route('story', ['cate' => slug($story->category->name), 'slug' => $story->slug, 'id' => $story->id]) }}">
-                    <h4 class="text16">
+                    <h6 class="text16">
                         {{ $story->title }}
-                    </h4>
+                    </h6>
                 </a>
                 <p class="line_height2">
                     {{ $story->description }}    
@@ -97,3 +102,24 @@
     </div>
 </div>
 @endsection
+
+@push('script')
+    <script src="{{asset('js/admin/jquery.min.js')}}"></script>
+    {{-- <script>
+        $(document).ready(function() {
+            $('#like_btn').click(function(e) {
+                var value = $('#like_btn span').html();
+                if ($('#like_btn span').hasClass('liked')){
+                    $('#like_btn span').removeClass('liked');
+                    if (value>0) value--;
+                } else {
+                    $('#like_btn span').addClass('liked');
+                    value++;
+                }
+                console.log(value);
+                e.preventDefault();
+            });
+        });
+        
+    </script> --}}
+@endpush

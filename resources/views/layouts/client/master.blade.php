@@ -48,6 +48,6 @@
         @include('client.partials.footer')
          
     </div>
-    
+    @stack('script')
 </body>
 </html>

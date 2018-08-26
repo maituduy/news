@@ -40,7 +40,7 @@
                             <p>{{ $story->description }}</p>
                         </div>
                         <ul class="post-utility">
-                            <li class="likes"><i class="fas fa-thumbs-up"></i> {{ $story->likes }} Thích</li>
+                            {{-- <li class="likes"><i class="fas fa-thumbs-up"></i> {{ $story->likes }} Thích</li> --}}
                             <li class="comments"><a target="_blank" href="{{ route('stories.show', ['id' => $story->id]) }}"><i class="far fa-comment"></i> {{ $story->comments()->count() }} Bình Luận</a></li>
                         </ul>
                     </div>
