@@ -14,7 +14,7 @@
                     @forelse ($category->stories()->orderBy('created_at', 'desc')->take(5)->get() as $story)
                     <li>
                         <a href="{{ route('story', ['cate' => slug($story->category->name), 'slug' => $story->slug, 'id' => $story->id]) }}">
-                            <img class="post_dd_no_image" src="{{ asset('/images/admin/story/'.$story->avatar) }}" alt="CP">   
+                            <img class="post_dd_no_image" src="{{ $story->avatar }}" alt="CP">   
                         </a>
                         <div class="post_des clear fix">
                         <a href="{{ route('story', ['cate' => slug($story->category->name), 'slug' => $story->slug, 'id' => $story->id]) }}">

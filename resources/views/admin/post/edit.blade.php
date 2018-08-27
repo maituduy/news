@@ -42,7 +42,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="exampleFile">Ảnh</label>
-                    <img class="img-fluid" src="{{ asset('/images/admin/story/'.$story->avatar) }}" alt="">
+                    <img class="img-fluid" src="{{ $story->avatar }}" alt="">
                     <input type="file" name="image" class="form-control-file {{ ($errors->has('image')) ? 'is-invalid' : '' }}" id="exampleFile">
                     @if ($errors->has('image'))
                     <div class="invalid-feedback">

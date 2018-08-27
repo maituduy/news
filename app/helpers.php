@@ -21,17 +21,34 @@
     }
 
     function upload_file_to_story($request) {
-        $fileExtension = $request->file('image')->getClientOriginalExtension(); // Lấy . của file
-                
-        // Filename cực shock để khỏi bị trùng
-        $fileName = time() . "_" . rand(0,9999999) . "_" . md5(rand(0,9999999)) . "." . $fileExtension;
-        // Thư mục upload
-        $uploadPath =  public_path('/images/admin/story'); // Thư mục upload
-        // Bắt đầu chuyển file vào thư mục
-        
-        $request->file('image')->move($uploadPath, $fileName);
+        $image = base64_encode(file_get_contents($request->file('image')));
+        $curl = curl_init();
 
-        return $fileName;
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://api.imgur.com/3/image",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => "------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"image\"\r\n\r\n$image\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW--",
+            CURLOPT_HTTPHEADER => array(
+                "Authorization: Client-ID 3c7e5e822162285",
+                "content-type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW"
+                ),
+        ));
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+
+        if ($err) {
+        echo "cURL Error #:" . $err;
+        } else {
+            return json_decode($response)['data']['link'];
+        }
     }
 
     function fill_field_story($request, $fileName, $id = null) {
