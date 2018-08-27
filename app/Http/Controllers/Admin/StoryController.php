@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-header("Content-type: application/json");
-
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Story;
