@@ -1,9 +1,11 @@
 <?php
+    header("Content-type: application/json");
     use App\Category;
     use App\Story;
     use App\Tag;
     use Carbon\Carbon;
     use Illuminate\Support\Facades\DB;
+
 
     function slug($str) {
         $str = trim(mb_strtolower($str));
@@ -47,7 +49,7 @@
         if ($err) {
         echo "cURL Error #:" . $err;
         } else {
-            return json_decode($response)['data']['link'];
+            return json_decode($response)->data->link;
         }
     }
 
