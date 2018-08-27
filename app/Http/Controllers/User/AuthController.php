@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Validator;
 class AuthController extends Controller
 {
     //
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     public function __construct() {
         $this->middleware('guest')->except(['logout']);
@@ -58,6 +58,6 @@ class AuthController extends Controller
         }
         $user = User::create($request->except('password_confirmation'));
         Auth::login($user);
-        return redirect()->url('/');
+        return redirect()->route('home');
     }
 }

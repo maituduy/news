@@ -73,7 +73,11 @@ class ClientController extends Controller
         })->orderBy('created_at', 'desc')->get();
         $story->addViewWithExpiryDate(Carbon::now()->addHours(2));
 
-        $comments = $story->comments()->orderBy('likes', 'desc')->orderBy('created_at', 'desc')->paginate(10);
+        $comments = Comment::where('story_id', $id)
+                           ->withCount('likes')
+                           ->orderBy('likes_count', 'desc')
+                           ->paginate(10);
+        
         return view('client.posted', compact('story', 'related_news', 'comments'));
     }
 
