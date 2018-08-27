@@ -18,9 +18,9 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         Schema::defaultStringLength(191);
-        // if (! $this->app->runningInConsole()) {
-        //     View::share('categories', Category::all());
-        // }
+        if (! $this->app->runningInConsole()) {
+            View::share('categories', Category::all());
+        }
     }
 
     /**
