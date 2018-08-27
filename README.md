@@ -1,4 +1,4 @@
-<a href="https://calm-bayou-88849.herokuapp.com"><b>DEMO</b></a>
+<a href="https://husnewspaper.herokuapp.com"><b>DEMO</b></a>
 
 <h1>Hướng dẫn cài đặt</h1>
 <ol>
