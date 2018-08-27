@@ -1,8 +1,9 @@
 @extends('layouts.client.master')
+
 @section('content')
-    <h5>
-        {{ $cate_name }}
-    </h5>
+    <h6>
+        <i class="fas fa-search"></i> Kết Quả Tìm Kiếm Cho: {{ $search }}
+    </h6>
     <hr class="hr">
     <div class="post">
         <div class="post_dd">
@@ -14,9 +15,9 @@
                     </a>
                     <div class="post_des clear fix">
                     <a href="{{ route('story', ['cate' => slug($story->category->name), 'slug' => $story->slug, 'id' => $story->id]) }}">
-                        <h6 class="text16">
+                        <h4 class="text16">
                             {{ $story->title }}
-                        </h6>
+                        </h4>
                     </a>
                     <p class="line_height2">
                         {{ $story->description }}    
@@ -25,27 +26,10 @@
                     <hr class='hr_center'>
                 </li>                        
                 @empty
-
+                <h6>Không Tìm Thấy</h6>
                 @endforelse
-                
-                
             </ul>
         </div>
         {{ $stories->links() }}
     </div>
 @endsection
-
-@push('script')
-<script src="{{asset('js/admin/jquery.min.js')}}"></script>
-<script>
-    $(document).ready(function() {
-        var id = "{{ $cate_id }}";
-            $('.menu_center li a').each(function() {
-            if ($(this).data('category') == id)
-                $(this).addClass('active');
-            });
-
-    });
-
-</script>
-@endpush

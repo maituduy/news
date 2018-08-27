@@ -146,4 +146,16 @@ class StoryController extends Controller
         
     }
 
+    public function search(Request $request) {
+        $search = preg_replace('/\s+/', ' ', $request->search);
+        $slug_search = slug($search);
+        $stories = Story::whereHas('tags', function($query) use($search) {
+                            $query->where('name', 'LIKE', "%$search%");
+                         })
+                        ->orWhere('slug', 'LIKE', "%$slug_search%")
+                        ->orderBy('created_at', 'desc')
+                        ->paginate(10);
+        return view('admin.post.index', compact('stories', 'search'));
+    ;}
+
 }

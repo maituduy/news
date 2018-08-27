@@ -15,6 +15,7 @@
 <div>
     <div class="story_header clearfix">
         <time>{{ format_time_store($story) }}</time>
+        <input type="hidden" value="{{ $story->category->id }}">
         <h1 class="text_left left full_width height30">
             {{ $story->title }}
         </h1>
@@ -111,6 +112,13 @@
     <script src="{{asset('js/admin/jquery.min.js')}}"></script>
     <script>
         $(document).ready(function() {
+            var id = $('.story_header').children('input').val();
+            $('.menu_center li a').each(function() {
+            if ($(this).data('category') == id)
+                $(this).addClass('active');
+            });
+
+
             $('.like_btn').click(function(e) {
                 var el = $(this).children('span');
                 var content = $(this).children('b');

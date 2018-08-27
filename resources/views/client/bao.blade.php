@@ -1,4 +1,6 @@
 @extends('layouts.client.master')
+
+@section('home_active', 'active')
 @section('content')
     <div class="post">
         <div class="post_dd">

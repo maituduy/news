@@ -7,6 +7,13 @@
 @section('page', 'Bài Viết')
 
 @section('content')
+    @if (!empty($search))
+        <div class="row">
+            <div class="col-md-12">
+                <div class="tile">Kết Quả Tìm Kiếm Cho: {{ $search }}</div>
+            </div>
+        </div>
+    @endif
     @forelse ($stories as $story)
     <form action="{{ route('stories.destroy', ['id' => $story->id]) }}" method="post">
         {{ csrf_field() }}
@@ -39,13 +46,18 @@
         </div>
     </form>
     @empty
-    <div class="row">
-        <div class="col-md-12">
-            <div class="tile">
-                <a href="{{ route('stories.create') }}" class="btn btn-primary mb-5">Create</a>
+        @if (!empty($search))
+            <h4>Không Tìm Thấy</h4>
+        @else
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="tile">
+                        <a href="{{ route('stories.create') }}" class="btn btn-primary mb-5">Tạo Bài Viết</a>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
+        @endif
+        
     @endforelse
     {{ $stories->links() }}
 @endsection
