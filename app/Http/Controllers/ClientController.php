@@ -15,13 +15,12 @@ class ClientController extends Controller
 {
     //
     public function home() {
-        $stories = Story::all();
         return view('client.bao', compact('stories'));
     }
 
     public function category($slug, $id) {
         $category = Category::findOrFail($id); 
-        $stories = $category->stories()->orderBy('created_at', 'desc')->paginate(10);
+        $stories = $category->stories()->where('is_active', 1)->orderBy('created_at', 'desc')->paginate(10);
         $cate_name = $category->name;
         $cate_id = $category->id;
         return view('client.category', compact('stories', 'cate_name', 'cate_id'));
@@ -29,7 +28,7 @@ class ClientController extends Controller
 
     public function tag($slug, $id){
         $tag = Tag::findOrFail($id); 
-        $stories = $tag->stories()->orderBy('created_at', 'desc')->paginate(10);
+        $stories = $tag->stories()->where('is_active', 1)->orderBy('created_at', 'desc')->paginate(10);
         $tag_name = $tag->name;
         return view('client.tag', compact('stories', 'tag_name'));
     }
@@ -63,7 +62,8 @@ class ClientController extends Controller
     }
 
     public function story($cate, $slug, $id) {
-        $story = Story::findOrFail($id);
+        $story = Story::where('id', $id)->where('is_active', 1)->first();
+        if ($story == null) abort(404);
         $tags = $story->tags()->get();
         $tags_name = [];
         foreach($tags as $tag)

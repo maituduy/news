@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\User;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
@@ -24,10 +25,29 @@ class AuthController extends Controller
 
     public function login(Request $request) 
     {
-        $this->validateLogin($request);
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password]))
-            return redirect()->intended(route('home'));
-        return redirect()->back()->withInput();
+        
+        
+        $validator = Validator::make($request->all() ,[
+            'email' => 'required|email|string',
+            'password' => 'required|string',
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator);
+        } else {
+            $user = User::where('email', '=', $request->email)->first();
+            if ($user == null) {
+                return redirect()->back()->with('msg', 'Tài khoản không tồn tại'); 
+            } else {
+                if (!Hash::check($request->password, $user->password)) {
+                    return redirect()->back()->with('msg', 'Sai mật khẩu');
+                } else {
+                    if (!$user->is_active) 
+                        return redirect()->back()->with('msg', 'Tài khoản của bạn đã bị khoá');
+                    Auth::loginUsingId($user->id); 
+                }   
+            }
+        }
+        
     }
 
     protected function validateLogin(Request $request)

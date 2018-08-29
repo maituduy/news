@@ -24,6 +24,7 @@
                     <div class="tile-title-w-btn">
                         <h3 class="title"><a href="{{ route('stories.show', ['id' => $story->id]) }}">{{ $story->title }}</a></h3>
                         <div class="btn-group">
+                            <a href="{{ route('stories.change', ['id' => $story->id]) }}" class="btn btn-primary" ><i class="{{ ($story->is_active) ? 'fa fa-eye-slash' : 'fas fa-eye'  }}" aria-hidden="true"></i></a>
                             <a class="btn btn-primary" href="{{ route('stories.create') }}"><i class="fa fa-lg fa-plus"></i></a>
                             <a class="btn btn-primary" href="{{ route('stories.edit', ['id' => $story->id]) }}"><i class="fa fa-lg fa-edit"></i></a>
                             <button class="btn btn-primary"><i class="fa fa-lg fa-trash"></i></button>

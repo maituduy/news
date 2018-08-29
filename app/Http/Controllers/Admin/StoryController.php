@@ -156,6 +156,12 @@ class StoryController extends Controller
                         ->orderBy('created_at', 'desc')
                         ->paginate(10);
         return view('admin.post.index', compact('stories', 'search'));
-    ;}
+    }
 
+    public function changeStatus($id) {
+        $story = Story::findOrFail($id);
+        $status = $story->is_active;
+        $story->update(['is_active' => !$status]);
+        return redirect()->route('stories.index');
+    }
 }

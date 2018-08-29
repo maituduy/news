@@ -43,5 +43,6 @@ Route::prefix('/admin')->group(function () {
     Route::resource('employees', 'Admin\EmployeeController');
     
     Route::get('/search', 'Admin\StoryController@search')->name('admin_search');
+    Route::get('/stories/changestatus/{id}', 'Admin\StoryController@changeStatus')->name('stories.change');
     Route::resource('/stories', 'Admin\StoryController');
 });
