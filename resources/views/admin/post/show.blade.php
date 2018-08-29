@@ -11,7 +11,7 @@
         <div class="col-md-12">
             <div class="tile">
                 <time class="text-dark">{{ format_time_store($story) }}</time>
-                <h1 class="tile-title text-center">asc</h1>
+                <h1 class="tile-title text-center">{{ $story->title }}</h1>
                 <div class="tile-body">
                     {!! $story->content !!}
                 </div>
