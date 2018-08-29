@@ -19,9 +19,9 @@
                     <div class="float-right">
                         <a class="btn btn-primary text-white" href="{{route('users.create')}}"><i
                                     class="fa fa-plus"></i>Thêm</a>
-                        <button class="btn btn-danger text-white delete_btn" form="delete_form"><i
+                        <a href="#" class="btn btn-danger text-white delete_btn" form="delete_form"><i
                                     class="fas fa-trash-alt mr-2"></i>Xoá
-                        </button>
+                        </a>
                     </div>
                 </div>
                 <form action="{{route('users.destroymany')}}" method="post" id="delete_form">
@@ -116,7 +116,7 @@
                     showCancelButton: true,
                     confirmButtonText: "Xoá",
                     cancelButtonText: "Huỷ",
-                    closeOnConfirm: false,
+                    closeOnConfirm: true,
                     closeOnCancel: true
                 }, function(isConfirm) {
                     if (isConfirm) {

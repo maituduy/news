@@ -127,9 +127,10 @@ class UserController extends Controller
     }
 
     public function destroyMany(Request $request) {
-        $ids = $request->checkbox;
-        if (count($ids)>0)
+        if ($request->has('checkbox')) {
+            $ids = $request->checkbox;
             User::whereIn('id', $ids)->delete();
+        }
         return redirect()->route('users.index');
     }
 
