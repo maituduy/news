@@ -19,7 +19,7 @@
                     <div class="float-right">
                         <a class="btn btn-primary text-white" href="{{route('users.create')}}"><i
                                     class="fa fa-plus"></i>Thêm</a>
-                        <button type="submit" class="btn btn-danger text-white delete_btn" form="delete_form"><i
+                        <button class="btn btn-danger text-white delete_btn" form="delete_form"><i
                                     class="fas fa-trash-alt mr-2"></i>Xoá
                         </button>
                     </div>
@@ -36,7 +36,6 @@
                                             <input type="checkbox" class="check_all"><span class="label-text"></span>
                                         </label>
                                     </div>
-                                    {{-- <input type="checkbox" class="check_all"><span class="label-text"></span> --}}
                                 </th>
                                 <th>Tên</th>
                                 <th>Email</th>
@@ -57,10 +56,6 @@
                                                 <span class="label-text"></span>
                                             </label>
                                         </div>
-                                        {{-- <label>
-                                            <input type="checkbox" class="user_checkbox" name="checkbox[]"
-                                                   value="{{$user->id}}"><span class="label-text"></span>
-                                        </label> --}}
                                     </td>
                                     <td>{{$user->name}}</td>
                                     <td>{{$user->email}}</td>
@@ -68,7 +63,7 @@
                                     <td>{{Carbon\Carbon::parse($user->created_at)->format('d/m/Y')}}</td>
                                     <td class="text-right">
                                         <a href="{{route('users.change', ['id' => $user->id])}}"
-                                           class="btn btn-warning"><i class="fa {{($user->is_active)? 'fa-lock': 'fa-unlock'}}"></i></a>
+                                           class="btn btn-warning">{{ ($user->is_active) ? 'Khoá': 'Mở Khoá' }}</a>
                                         <a href="{{route('users.edit', ['id' => $user->id])}}" class="btn
                                         btn-primary">Sửa</a>
                                     </td>
@@ -91,8 +86,9 @@
 @endsection
 
 @push('script')
-    <script src="{{asset('js/admin/plugins/jquery.dataTables.min.js')}}"></script>
-    <script src="{{asset('js/admin/plugins/dataTables.bootstrap.min.js')}}"></script>
+    <script src="{{asset('js/admin/plugins/jquery.dataTables.min.js') }}"></script>
+    <script src="{{asset('js/admin/plugins/dataTables.bootstrap.min.js') }}"></script>
+    <script src="{{ asset('js/admin/plugins/sweetalert.min.js') }}"></script>
     <script>
         $(document).ready(function () {
             $('#user_table').DataTable({
@@ -110,6 +106,23 @@
                     check_list.prop('checked', false)
                 }
                 else check_list.prop('checked', true);
+            });
+
+            $('.delete_btn').click(function() {
+                swal({
+                    title: "Bạn có chắc chắn?",
+                    text: "Bạn sẽ không thể phục hồi những người dùng này",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Xoá",
+                    cancelButtonText: "Huỷ",
+                    closeOnConfirm: false,
+                    closeOnCancel: true
+                }, function(isConfirm) {
+                    if (isConfirm) {
+                        document.getElementById('delete_form').submit();
+                    } 
+                });
             });
         });
     </script>
