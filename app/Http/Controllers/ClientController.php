@@ -88,6 +88,7 @@ class ClientController extends Controller
                             $query->where('name', 'LIKE', "%$search%");
                         })
                         ->orWhere('slug', 'LIKE', "%$slug_search%")
+                        ->where('is_active', 1)
                         ->orderBy('created_at', 'desc')
                         ->paginate(10);
         return view('client.search', compact('stories', 'search'));
