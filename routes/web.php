@@ -37,7 +37,7 @@ Route::prefix('/admin')->group(function () {
     Route::resource('/users', 'Admin\UserController');
 
     Route::get('/categories', 'Admin\CategoryController@index')->name('categories.index');
-    Route::post('/createcategory', 'Admin\CategoryController@ajax')->name('cateajax');
+    Route::post('/ajax_category', 'Admin\CategoryController@ajax');
 
     Route::post('/employees/destroymany', 'Admin\EmployeeController@destroyMany')->name('employees.destroymany');
     Route::resource('employees', 'Admin\EmployeeController');

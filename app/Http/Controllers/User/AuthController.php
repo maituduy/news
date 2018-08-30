@@ -43,7 +43,8 @@ class AuthController extends Controller
                 } else {
                     if (!$user->is_active) 
                         return redirect()->back()->with('msg', 'Tài khoản của bạn đã bị khoá');
-                    Auth::loginUsingId($user->id); 
+                    Auth::loginUsingId($user->id);
+                    return redirect()->route('home'); 
                 }   
             }
         }

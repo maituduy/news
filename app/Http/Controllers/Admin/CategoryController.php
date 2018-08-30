@@ -20,12 +20,10 @@ class CategoryController extends Controller
     }
 
     public function ajax(Request $request) {
-        $validator = Validator::make($request->all() ,[
-            'name' => 'required|max:255|unique:categories'
-        ]);
-        if (!$validator->fails())
-            Category::create(['name' => $request->name]);
-        return response($validator->errors()->first());
+        $category = new Category();
+        $category->name = $request->category;
+        $category->save();
+        return response($category->id);
     }
 
 }
