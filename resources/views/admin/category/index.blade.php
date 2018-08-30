@@ -99,8 +99,10 @@
                             success : function(res) {
                                 var html = '<li class="nav-item"><a class="nav-link" href="#user-timeline-'+res+'" data-toggle="tab">'+category+'</a></li>';
                                 $('.input_add').before(html);
-                                $('.input_add').addClass('d-none');
                                 $('.input_add').val('');
+                                $('.group_add').addClass('d-none');
+                                $('.input_add').addClass('d-none');
+                                $('.btn_add').removeClass('d-none');
                                 showNotify('Thêm thành công', 'primary');
                             }
                         });
